@@ -168,7 +168,7 @@ const Home = () => {
 
   return (
     <div className="w-[80%] py-10 mx-auto">
-      <div className="flex max-sm:flex-col-reverse  gap-10">
+      <div className="flex max-sm:flex-col gap-10">
         <div className="bg-[#FFFFFF] w-[70%] max-sm:w-full ">
           <div className="p-5">
             <div className="flex max-sm:flex-col  items-center gap-5">
