@@ -2,11 +2,9 @@ import { IoSearchSharp } from "react-icons/io5";
 import { IoSunny } from "react-icons/io5";
 import { TbSunset2 } from "react-icons/tb";
 import { IoMdCloudOutline } from "react-icons/io";
-import { FaLeaf, FaWind } from "react-icons/fa";
+import { FaWind } from "react-icons/fa";
 import pressureImg from "../../public/img/pressure.jpg";
 import { BsCloudRainHeavy } from "react-icons/bs";
-import { FaAngleUp } from "react-icons/fa";
-import { FaAngleDown } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
 interface WeatherData {
@@ -49,23 +47,7 @@ interface WeatherData {
   cod: number;
 }
 
-interface HourlyWeatherData {
-  lat: number;
-  lon: number;
-  timezone: string;
-  timezone_offset: number;
-  hourly: {
-    dt: number;
-    temp: number;
-    pop: number;
-    weather: {
-      id: number;
-      main: string;
-      description: string;
-      icon: string;
-    }[];
-  }[];
-}
+
 interface GeoLocation {
   name: string;
   lat: number;
@@ -80,9 +62,7 @@ const Home = () => {
   const [location, setLocation] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [Error, setError] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+  const [error, setError] = useState<string>("");
   console.log(location);
   const [timestamp, setTimestamp] = useState<Date | null>(null);
   const [userSearched, setUserSearched] = useState(false);
@@ -90,10 +70,10 @@ const Home = () => {
   const API_KEY = import.meta.env.VITE_API_KEY;
 
   // Handle Search
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value.toUpperCase());
-    setUserSearched(true);
-  };
+const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setLocation(e.target.value.toUpperCase());
+  setUserSearched(true);
+};
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -144,6 +124,7 @@ const Home = () => {
             },
             (error) => {
               setError("Geolocation permission denied or failed.");
+              console.log(error)
               setLoading(false);
             }
           );
@@ -164,7 +145,10 @@ const Home = () => {
   const date = time.getDate();
   const dayName = time.toLocaleDateString("en-US", { weekday: "long" });
 
-  const WeatherIcon = weather?.clouds?.all > 60 ? IoMdCloudOutline : IoSunny;
+const WeatherIcon = weather?.clouds?.all && weather.clouds.all > 60 ? IoMdCloudOutline : IoSunny;
+ if(error){
+ console.log(error)
+ }
 
   return (
     <div className="w-[80%] py-10 mx-auto">
@@ -265,15 +249,19 @@ const Home = () => {
                 {weather?.main?.temp}&#176; C
               </h2>
 
-              <h3 className="text-xl">
-                {weather?.clouds?.all > 85
-                  ? "Cloudy"
-                  : weather?.clouds?.all > 70
-                  ? "Mostly Cloudy"
-                  : weather?.clouds?.all > 30
-                  ? "Partly Cloudy"
-                  : "Clear"}
-              </h3>
+<h3 className="text-xl">
+  {
+    !weather?.clouds?.all ? "Loading..." :
+    weather.clouds.all > 85
+      ? "Cloudy"
+      : weather.clouds.all > 70
+      ? "Mostly Cloudy"
+      : weather.clouds.all > 30
+      ? "Partly Cloudy"
+      : "Clear"
+  }
+</h3>
+
             </div>
 
             <hr />
