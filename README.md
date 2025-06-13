@@ -4,6 +4,7 @@
 **Live Website:** [Weather App](https://weather-app-nu-nine-92.vercel.app/) 
 
 **Weather Application OverView** 
+
 This weather app lets users search for any city's current weather worldwide.
 It shows real-time data like temperature, wind speed, humidity, and pressure.
 Users can also view sunrise and sunset times based on the searched location.
