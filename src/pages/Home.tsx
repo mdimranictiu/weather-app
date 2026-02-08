@@ -56,8 +56,9 @@ interface GeoLocation {
   state?: string;
 }
 // interface timestamp{
-//   time: string;
+//   time: stjnkjring;
 // }
+
 const Home = () => {
   const [location, setLocation] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
